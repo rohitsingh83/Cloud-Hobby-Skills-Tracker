@@ -3,8 +3,8 @@ import {
   Heart, MessageSquare, Share2, Image, 
   Send, Sparkles, Filter, CheckCircle2, User 
 } from "lucide-react";
-import { createCommunityPost, toggleLikePost, uploadMediaFile } from "../../services/dataService";
-import { useAuth } from "../../context/AuthContext";
+import { createCommunityPost, toggleLikePost, uploadMediaFile } from "../services/dataService";
+import { useAuth } from "../context/AuthContext";
 
 export default function CommunityFeed({ posts, setPosts, skills }) {
   const { user } = useAuth();
