@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Production Builds
+dist/
+build/
+
+# Local Environment & Secrets
+.env
+.env.local
+.env.production
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

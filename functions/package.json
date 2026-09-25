@@ -1,0 +1,19 @@
+{
+  "name": "skillsphere-3d-functions",
+  "description": "Cloud Functions for SkillSphere 3D Streak & Analytics Automation",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.1.1",
+    "firebase-functions": "^5.0.1"
+  },
+  "private": true
+}

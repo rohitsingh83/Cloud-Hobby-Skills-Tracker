@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    
+    // Helper function for user ownership
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User Profile
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+      
+      // Skills subcollection
+      match /skills/{skillId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // Goals subcollection
+      match /goals/{goalId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // Practice Logs subcollection
+      match /logs/{logId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // Aggregated Stats
+      match /stats/{statId} {
+        allow read: if isAuthenticated();
+        allow write: if isOwner(userId);
+      }
+    }
+
+    // Community Feed Posts
+    match /posts/{postId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+      allow update: if isAuthenticated(); // For like count and comment count updates
+      allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
+
+      // Likes subcollection (Composite key ensures single like per user)
+      match /likes/{userId} {
+        allow read: if isAuthenticated();
+        allow create, delete: if isOwner(userId);
+      }
+
+      // Comments subcollection
+      match /comments/{commentId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+        allow delete: if isAuthenticated() && (
+          resource.data.uid == request.auth.uid || 
+          get(/databases/$(db)/documents/posts/$(postId)).data.uid == request.auth.uid
+        );
+      }
+    }
+    
+    // Follows Collection (Optional social graph)
+    match /follows/{followId} {
+      allow read: if isAuthenticated();
+      allow create, delete: if isAuthenticated() && request.auth.uid == request.resource.data.follower_id;
+    }
+  }
+}
