@@ -1,0 +1,21 @@
+{
+  "short_name": "SkillSphere 3D",
+  "name": "SkillSphere 3D: Cloud Hobby & Skills Tracker",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#090A10",
+  "theme_color": "#00F0FF",
+  "display": "standalone",
+  "orientation": "portrait-primary"
+}
